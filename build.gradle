@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.2'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'com.github.node-gradle.node' version "7.0.2"
 }
 
 group = 'com.example'
@@ -29,18 +30,18 @@ ext {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.shell:spring-shell-starter'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+//    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+//    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+//    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.springframework.shell:spring-shell-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
@@ -50,7 +51,23 @@ dependencyManagement {
         mavenBom "org.springframework.shell:spring-shell-dependencies:${springShellVersion}"
     }
 }
+node {
+    version = '20.16.0'
+    npmVersion = '10.8.1'
+    workDir = file("${project.buildDir}/nodejs")
+    npmWorkDir = file("${project.buildDir}/npm")
+//    nodeModulesDir = file("${project.projectDir}")
+}
+
+//tasks.register('buildFrontend', NpmTask) {
+//    args = ['run', 'build']
+//}
+
+//processResources.dependsOn 'buildFrontend'
 
 tasks.named('test') {
+    useJUnitPlatform()
+}
+test {
     useJUnitPlatform()
 }
